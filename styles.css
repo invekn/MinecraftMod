@@ -1,45 +1,16 @@
-/* Основной фон и шрифт */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: radial-gradient(#000, #111);
+  background-color: #121212;
   color: #f0f0f0;
-  overflow: hidden;
-  height: 100vh;
 }
 
-/* Анимированные звёзды */
-.stars {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  box-shadow: 
-    100px 200px white,
-    300px 400px white,
-    500px 100px white,
-    700px 300px white,
-    900px 150px white,
-    200px 600px white,
-    400px 700px white,
-    600px 500px white;
-  animation: moveStars 20s linear infinite;
-  z-index: -1;
-}
-
-@keyframes moveStars {
-  from { transform: translateY(0); }
-  to { transform: translateY(-100px); }
-}
-
-/* Шапка сайта */
 header {
-  background-color: rgba(30, 30, 30, 0.8);
+  background-color: #1e1e1e;
   padding: 20px;
   text-align: center;
 }
 
-/* Навигация */
 nav a {
   margin: 0 10px;
   color: #00ff88;
@@ -50,21 +21,15 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* Секции */
 section {
   padding: 20px;
-  background-color: rgba(20, 20, 20, 0.7);
-  margin: 10px;
-  border-radius: 10px;
 }
 
-/* Изображения */
 img {
   max-width: 100%;
   border-radius: 10px;
 }
 
-/* Кнопки */
 .button {
   display: inline-block;
   padding: 10px 20px;
@@ -75,35 +40,25 @@ img {
   margin-top: 10px;
 }
 
-/* Подвал */
 footer {
-  background-color: rgba(30, 30, 30, 0.8);
+  background-color: #1e1e1e;
   text-align: center;
   padding: 10px;
   font-size: 14px;
   color: #aaa;
 }
 
-/* Светлая тема */
 .light-theme {
-  background: radial-gradient(#fff, #ddd);
-  color: #000;
+  background-color: #ffffff;
+  color: #000000;
 }
 
 .light-theme header,
 .light-theme footer {
-  background-color: rgba(240, 240, 240, 0.9);
-}
-
-.light-theme section {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #eeeeee;
 }
 
 .light-theme .button {
   background-color: #0077ff;
   color: #fff;
-}
-
-.light-theme nav a {
-  color: #0077ff;
 }
