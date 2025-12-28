@@ -1,272 +1,646 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Моды | Сборка лучших модов</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Minecraft&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="https://static.wikia.nocookie.net/minecraft_gamepedia/images/1/1a/Grass_Block_%28texture%29_JE5.png">
-</head>
-<body>
-    <!-- Блоки фона -->
-    <div class="minecraft-bg">
-        <div class="block-grid"></div>
-    </div>
+// Основные переменные
+let currentMods = [];
+let currentTheme = 'default';
+let editingModId = null;
 
-    <!-- Крестик загрузки Minecraft -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="minecraft-loading">
-            <div class="loading-bar">
-                <div class="loading-progress" id="loadingProgress"></div>
-            </div>
-            <p class="loading-text">Загрузка Minecraft-модов...</p>
-        </div>
-    </div>
-
-    <!-- Основной контент -->
-    <div class="container">
-        <!-- Хедер в стиле Minecraft -->
-        <header class="minecraft-header">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="dirt-block"></div>
-                    <h1><i class="fas fa-cube"></i> Minecraft Моды</h1>
-                    <div class="grass-block"></div>
-                </div>
-                <p class="tagline">Сборка лучших модов для вашего Minecraft</p>
-            </div>
+// Загрузочный экран
+window.addEventListener('DOMContentLoaded', () => {
+    const loadingScreen = document.getElementById('loadingScreen');
+    const loadingProgress = document.getElementById('loadingProgress');
+    
+    // Загрузка сохраненных данных
+    loadSavedData();
+    
+    // Симуляция загрузки
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 20;
+        if (progress > 100) {
+            progress = 100;
+            clearInterval(interval);
             
-            <!-- Навигация как инвентарь -->
-            <nav class="inventory-nav">
-                <div class="hotbar">
-                    <a href="#mods" class="hotbar-slot active" data-tooltip="Моды">
-                        <i class="fas fa-box-open"></i>
-                        <span>Моды</span>
-                    </a>
-                    <a href="#install" class="hotbar-slot" data-tooltip="Установка">
-                        <i class="fas fa-download"></i>
-                        <span>Установка</span>
-                    </a>
-                    <a href="#guides" class="hotbar-slot" data-tooltip="Гайды">
-                        <i class="fas fa-book"></i>
-                        <span>Гайды</span>
-                    </a>
-                    <a href="#servers" class="hotbar-slot" data-tooltip="Серверы">
-                        <i class="fas fa-server"></i>
-                        <span>Серверы</span>
-                    </a>
-                    <a href="#community" class="hotbar-slot" data-tooltip="Сообщество">
-                        <i class="fas fa-users"></i>
-                        <span>Сообщество</span>
-                    </a>
-                </div>
-            </nav>
-        </header>
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    initWebsite();
+                }, 500);
+            }, 500);
+        }
+        loadingProgress.style.width = `${progress}%`;
+    }, 100);
+});
 
-        <!-- Статистика как в Minecraft -->
-        <section class="stats-bar">
-            <div class="stat">
-                <i class="fas fa-download"></i>
-                <span class="stat-count" data-count="1254">0</span>
-                <span class="stat-label">Загрузок</span>
-            </div>
-            <div class="stat">
-                <i class="fas fa-box"></i>
-                <span class="stat-count" data-count="89">0</span>
-                <span class="stat-label">Модов</span>
-            </div>
-            <div class="stat">
-                <i class="fas fa-users"></i>
-                <span class="stat-count" data-count="356">0</span>
-                <span class="stat-label">Разработчиков</span>
-            </div>
-            <div class="stat">
-                <i class="fas fa-check-circle"></i>
-                <span class="stat-count" data-count="100">0</span>
-                <span class="stat-label">Активных</span>
-            </div>
-        </section>
+// Инициализация сайта
+function initWebsite() {
+    // Инициализация всех компонентов
+    initNavigation();
+    initMods();
+    initDecorControls();
+    initForms();
+    initNotifications();
+    initBackToTop();
+    initEventListeners();
+    
+    // Показать приветственное сообщение
+    setTimeout(() => {
+        showNotification('Добро пожаловать в MyCraft Mods!', 'success');
+    }, 1000);
+}
 
-        <!-- Секция с модами -->
-        <section id="mods" class="section">
-            <h2 class="section-title">
-                <i class="fas fa-star"></i> Популярные Моды
-                <div class="title-decoration"></div>
-            </h2>
-            
-            <div class="mods-grid">
-                <!-- Мод 1 -->
-                <div class="mod-card" data-category="adventure">
-                    <div class="mod-header">
-                        <div class="mod-icon">
-                            <i class="fas fa-dragon"></i>
-                        </div>
-                        <div class="mod-title">
-                            <h3>Драконий Мод</h3>
-                            <span class="mod-version">v2.5.1</span>
-                        </div>
-                    </div>
-                    <div class="mod-description">
-                        <p>Добавляет драконов, яйца драконов и новые биомы.</p>
-                        <div class="mod-tags">
-                            <span class="tag adventure">Приключения</span>
-                            <span class="tag mobs">Мобы</span>
-                        </div>
-                    </div>
-                    <div class="mod-stats">
-                        <span><i class="fas fa-download"></i> 250K</span>
-                        <span><i class="fas fa-thumbs-up"></i> 98%</span>
-                        <span>MC 1.16+</span>
-                    </div>
-                    <button class="minecraft-btn download-btn" data-mod="dragon-mod">
-                        <i class="fas fa-download"></i> Скачать
-                    </button>
-                </div>
+// Загрузка сохраненных данных
+function loadSavedData() {
+    // Загрузка модов из localStorage
+    const savedMods = localStorage.getItem('mycraftMods');
+    if (savedMods) {
+        currentMods = JSON.parse(savedMods);
+    }
+    
+    // Загрузка темы
+    const savedTheme = localStorage.getItem('mycraftTheme');
+    if (savedTheme) {
+        currentTheme = savedTheme;
+        applyTheme(savedTheme);
+    }
+    
+    // Загрузка цветов
+    const savedColors = localStorage.getItem('mycraftColors');
+    if (savedColors) {
+        applyColors(JSON.parse(savedColors));
+    }
+}
 
-                <!-- Мод 2 -->
-                <div class="mod-card" data-category="tech">
-                    <div class="mod-header">
-                        <div class="mod-icon">
-                            <i class="fas fa-industry"></i>
-                        </div>
-                        <div class="mod-title">
-                            <h3>Технический Мод</h3>
-                            <span class="mod-version">v3.2.0</span>
-                        </div>
-                    </div>
-                    <div class="mod-description">
-                        <p>Новые машины, генераторы и автоматизация процессов.</p>
-                        <div class="mod-tags">
-                            <span class="tag tech">Техника</span>
-                            <span class="tag automation">Автоматизация</span>
-                        </div>
-                    </div>
-                    <div class="mod-stats">
-                        <span><i class="fas fa-download"></i> 180K</span>
-                        <span><i class="fas fa-thumbs-up"></i> 95%</span>
-                        <span>MC 1.18+</span>
-                    </div>
-                    <button class="minecraft-btn download-btn" data-mod="tech-mod">
-                        <i class="fas fa-download"></i> Скачать
-                    </button>
-                </div>
+// Сохранение данных
+function saveMods() {
+    localStorage.setItem('mycraftMods', JSON.stringify(currentMods));
+}
 
-                <!-- Мод 3 -->
-                <div class="mod-card" data-category="magic">
-                    <div class="mod-header">
-                        <div class="mod-icon">
-                            <i class="fas fa-hat-wizard"></i>
-                        </div>
-                        <div class="mod-title">
-                            <h3>Магический Мод</h3>
-                            <span class="mod-version">v1.8.3</span>
-                        </div>
-                    </div>
-                    <div class="mod-description">
-                        <p>Новые заклинания, магические предметы и ритуалы.</p>
-                        <div class="mod-tags">
-                            <span class="tag magic">Магия</span>
-                            <span class="tag rpg">RPG</span>
-                        </div>
-                    </div>
-                    <div class="mod-stats">
-                        <span><i class="fas fa-download"></i> 150K</span>
-                        <span><i class="fas fa-thumbs-up"></i> 96%</span>
-                        <span>MC 1.19+</span>
-                    </div>
-                    <button class="minecraft-btn download-btn" data-mod="magic-mod">
-                        <i class="fas fa-download"></i> Скачать
-                    </button>
-                </div>
+function saveTheme(theme) {
+    localStorage.setItem('mycraftTheme', theme);
+}
+
+function saveColors(colors) {
+    localStorage.setItem('mycraftColors', JSON.stringify(colors));
+}
+
+// Инициализация модов
+function initMods() {
+    const modsContainer = document.querySelector('.mods-container');
+    
+    // Очистка контейнера (кроме карточки добавления)
+    const addCard = document.getElementById('addNewModCard');
+    modsContainer.innerHTML = '';
+    modsContainer.appendChild(addCard);
+    
+    // Добавление существующих модов
+    currentMods.forEach((mod, index) => {
+        const modCard = createModCard(mod, index);
+        modsContainer.insertBefore(modCard, addCard);
+    });
+}
+
+// Создание карточки мода
+function createModCard(modData, id) {
+    const card = document.createElement('div');
+    card.className = 'mod-card';
+    card.dataset.id = id;
+    
+    // Определяем категории
+    const categories = modData.categories || [];
+    const categoryClass = categories[0] || 'other';
+    card.classList.add(categoryClass);
+    
+    // Создаем HTML структуру
+    card.innerHTML = `
+        ${modData.featured ? '<div class="mod-ribbon">Лучший</div>' : ''}
+        <div class="mod-header">
+            <div class="mod-icon">
+                <i class="fas ${modData.icon || 'fa-box'}"></i>
             </div>
-        </section>
-
-        <!-- Секция установки -->
-        <section id="install" class="section">
-            <h2 class="section-title">
-                <i class="fas fa-wrench"></i> Установка Модов
-                <div class="title-decoration"></div>
-            </h2>
-            
-            <div class="install-steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Установите Forge</h3>
-                        <p>Скачайте и установите Minecraft Forge для вашей версии игры.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Найдите папку mods</h3>
-                        <p>Откройте папку .minecraft и найдите папку "mods".</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Поместите файлы модов</h3>
-                        <p>Скопируйте скачанные .jar файлы модов в папку mods.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>Запустите игру</h3>
-                        <p>Запустите Minecraft через профиль Forge.</p>
-                    </div>
-                </div>
+            <div class="mod-title">
+                <h3>${modData.name}</h3>
+                <span class="mod-author">by ${modData.author || 'Вы'}</span>
             </div>
-        </section>
-
-        <!-- Футер -->
-        <footer class="minecraft-footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <div class="footer-block"></div>
-                    <h3>Minecraft Моды</h3>
-                </div>
-                <div class="footer-links">
-                    <a href="#"><i class="fab fa-github"></i> GitHub</a>
-                    <a href="#"><i class="fab fa-discord"></i> Discord</a>
-                    <a href="#"><i class="fab fa-curseforge"></i> CurseForge</a>
-                </div>
-                <p class="copyright">© 2023 Minecraft Моды. Не аффилирован с Mojang/Microsoft.</p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Кнопка вверх -->
-    <button id="backToTop" class="minecraft-btn back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <!-- Модальное окно -->
-    <div id="downloadModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Скачать Мод</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p id="modalMessage">Выберите версию для скачивания:</p>
-                <div class="version-selector">
-                    <button class="version-option" data-version="1.19">Minecraft 1.19</button>
-                    <button class="version-option" data-version="1.18">Minecraft 1.18</button>
-                    <button class="version-option" data-version="1.17">Minecraft 1.17</button>
-                </div>
-                <div class="modal-actions">
-                    <button class="minecraft-btn confirm-download">
-                        <i class="fas fa-download"></i> Скачать
-                    </button>
-                </div>
+            <div class="mod-actions">
+                <button class="mod-action-btn" title="Редактировать" onclick="editMod(${id})">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="mod-action-btn" title="Удалить" onclick="deleteMod(${id})">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
         </div>
-    </div>
+        <div class="mod-content">
+            <p class="mod-description">${modData.description}</p>
+            <div class="mod-details">
+                <div class="detail">
+                    <i class="fas fa-code-branch"></i>
+                    <span>Версия: <strong>${modData.version}</strong></span>
+                </div>
+                <div class="detail">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Minecraft: <strong>${modData.mcVersion}</strong></span>
+                </div>
+                <div class="detail">
+                    <i class="fas fa-download"></i>
+                    <span>Загрузок: <strong>${modData.downloads || 0}</strong></span>
+                </div>
+            </div>
+            <div class="mod-tags">
+                ${categories.map(cat => `<span class="tag ${cat}">${getCategoryName(cat)}</span>`).join('')}
+            </div>
+        </div>
+        <div class="mod-footer">
+            <div class="mod-rating">
+                <div class="stars">
+                    ${generateStars(modData.rating || 0)}
+                </div>
+                <span>${modData.rating || 0} (${modData.ratingsCount || 0})</span>
+            </div>
+            <button class="minecraft-btn mod-action" onclick="downloadMod(${id})">
+                <i class="fas fa-download"></i> Скачать
+            </button>
+        </div>
+    `;
+    
+    return card;
+}
 
-    <script src="script.js"></script>
-</body>
-</html>
+// Генерация звезд рейтинга
+function generateStars(rating) {
+    let stars = '';
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    
+    for (let i = 0; i < 5; i++) {
+        if (i < fullStars) {
+            stars += '<i class="fas fa-star"></i>';
+        } else if (i === fullStars && hasHalfStar) {
+            stars += '<i class="fas fa-star-half-alt"></i>';
+        } else {
+            stars += '<i class="far fa-star"></i>';
+        }
+    }
+    
+    return stars;
+}
+
+// Получение названия категории
+function getCategoryName(category) {
+    const categories = {
+        'tech': 'Техника',
+        'magic': 'Магия',
+        'adventure': 'Приключения',
+        'building': 'Строительство',
+        'decor': 'Декор',
+        'factory': 'Фабрика',
+        'rpg': 'RPG',
+        'automation': 'Автоматизация',
+        'blocks': 'Блоки',
+        'mobs': 'Мобы'
+    };
+    
+    return categories[category] || category;
+}
+
+// Управление модами
+function addMod(modData) {
+    modData.id = Date.now();
+    modData.createdAt = new Date().toISOString();
+    modData.downloads = 0;
+    modData.rating = 0;
+    modData.ratingsCount = 0;
+    
+    currentMods.push(modData);
+    saveMods();
+    initMods();
+    
+    showNotification(`Мод "${modData.name}" успешно добавлен!`, 'success');
+}
+
+function editMod(id) {
+    const mod = currentMods[id];
+    if (!mod) return;
+    
+    editingModId = id;
+    
+    // Заполняем форму редактирования
+    document.getElementById('modName').value = mod.name;
+    document.getElementById('modDescription').value = mod.description;
+    document.getElementById('modVersion').value = mod.version;
+    document.getElementById('mcVersion').value = mod.mcVersion;
+    
+    // Устанавливаем категории
+    const checkboxes = document.querySelectorAll('input[name="category"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = mod.categories?.includes(checkbox.value) || false;
+    });
+    
+    // Показываем модальное окно
+    const modal = document.getElementById('addModModal');
+    modal.querySelector('.modal-header h2').innerHTML = '<i class="fas fa-edit"></i> Редактировать мод';
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function updateMod(id, modData) {
+    if (id < 0 || id >= currentMods.length) return;
+    
+    // Сохраняем неизменяемые поля
+    modData.id = currentMods[id].id;
+    modData.downloads = currentMods[id].downloads;
+    modData.rating = currentMods[id].rating;
+    modData.ratingsCount = currentMods[id].ratingsCount;
+    modData.createdAt = currentMods[id].createdAt;
+    modData.updatedAt = new Date().toISOString();
+    
+    currentMods[id] = modData;
+    saveMods();
+    initMods();
+    
+    showNotification(`Мод "${modData.name}" успешно обновлен!`, 'success');
+}
+
+function deleteMod(id) {
+    if (confirm(`Вы уверены, что хотите удалить мод "${currentMods[id]?.name}"?`)) {
+        currentMods.splice(id, 1);
+        saveMods();
+        initMods();
+        showNotification('Мод успешно удален!', 'success');
+    }
+}
+
+function downloadMod(id) {
+    const mod = currentMods[id];
+    if (!mod) return;
+    
+    // Увеличиваем счетчик загрузок
+    mod.downloads = (mod.downloads || 0) + 1;
+    saveMods();
+    initMods();
+    
+    showNotification(`Начинается скачивание мода "${mod.name}"`, 'success');
+    
+    // Здесь должна быть реальная логика скачивания
+    console.log(`Downloading: ${mod.name} v${mod.version} for MC ${mod.mcVersion}`);
+}
+
+// Управление декором
+function initDecorControls() {
+    // Темы
+    const themeOptions = document.querySelectorAll('.theme-option');
+    themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            themeOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            
+            const theme = option.dataset.theme;
+            applyTheme(theme);
+            saveTheme(theme);
+        });
+    });
+    
+    // Устанавливаем активную тему
+    themeOptions.forEach(option => {
+        if (option.dataset.theme === currentTheme) {
+            option.classList.add('active');
+        }
+    });
+    
+    // Цвета
+    const colorInputs = document.querySelectorAll('input[type="color"]');
+    colorInputs.forEach(input => {
+        // Устанавливаем сохраненные значения
+        const savedColors = JSON.parse(localStorage.getItem('mycraftColors') || '{}');
+        if (savedColors[input.id]) {
+            input.value = savedColors[input.id];
+        }
+        
+        input.addEventListener('change', () => {
+            const colors = {
+                primaryColor: document.getElementById('primaryColor').value,
+                secondaryColor: document.getElementById('secondaryColor').value,
+                accentColor: document.getElementById('accentColor').value
+            };
+            
+            applyColors(colors);
+            saveColors(colors);
+        });
+    });
+}
+
+function applyTheme(theme) {
+    const root = document.documentElement;
+    
+    // Удаляем предыдущие темы
+    document.body.classList.remove('theme-nether', 'theme-end', 'theme-ocean');
+    
+    switch (theme) {
+        case 'nether':
+            document.body.classList.add('theme-nether');
+            break;
+        case 'end':
+            document.body.classList.add('theme-end');
+            break;
+        case 'ocean':
+            document.body.classList.add('theme-ocean');
+            break;
+    }
+    
+    showNotification(`Тема "${getThemeName(theme)}" применена`, 'success');
+}
+
+function getThemeName(theme) {
+    const themes = {
+        'default': 'Классическая',
+        'nether': 'Незер',
+        'end': 'Энд',
+        'ocean': 'Океан'
+    };
+    
+    return themes[theme] || theme;
+}
+
+function applyColors(colors) {
+    const root = document.documentElement;
+    
+    if (colors.primaryColor) {
+        root.style.setProperty('--mc-green', colors.primaryColor);
+        root.style.setProperty('--mc-dark-green', darkenColor(colors.primaryColor, 20));
+    }
+    
+    if (colors.secondaryColor) {
+        root.style.setProperty('--mc-brown', colors.secondaryColor);
+        root.style.setProperty('--mc-dark-brown', darkenColor(colors.secondaryColor, 20));
+    }
+    
+    if (colors.accentColor) {
+        root.style.setProperty('--mc-yellow', colors.accentColor);
+    }
+}
+
+function darkenColor(color, percent) {
+    const num = parseInt(color.replace("#", ""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) - amt;
+    const G = (num >> 8 & 0x00FF) - amt;
+    const B = (num & 0x0000FF) - amt;
+    
+    return "#" + (
+        0x1000000 +
+        (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+        (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+        (B < 255 ? B < 1 ? 0 : B : 255)
+    ).toString(16).slice(1);
+}
+
+// Управление формами
+function initForms() {
+    const addModal = document.getElementById('addModModal');
+    const addModForm = document.getElementById('modForm');
+    const cancelBtn = document.getElementById('cancelAddMod');
+    const closeModal = addModal.querySelector('.close-modal');
+    const fileInput = document.getElementById('modFile');
+    const fileName = document.querySelector('.file-name');
+    
+    // Открытие модального окна
+    document.getElementById('addNewModCard').addEventListener('click', () => {
+        editingModId = null;
+        addModForm.reset();
+        addModal.querySelector('.modal-header h2').innerHTML = '<i class="fas fa-plus-circle"></i> Добавить новый мод';
+        fileName.textContent = 'Файл не выбран';
+        addModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Закрытие модального окна
+    cancelBtn.addEventListener('click', closeModal);
+    closeModal.addEventListener('click', closeModal);
+    
+    addModal.addEventListener('click', (e) => {
+        if (e.target === addModal) {
+            closeModal();
+        }
+    });
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && addModal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+    
+    function closeModal() {
+        addModal.classList.remove('active');
+        document.body.style.overflow = '';
+        editingModId = null;
+    }
+    
+    // Отображение имени файла
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            fileName.textContent = fileInput.files[0].name;
+        } else {
+            fileName.textContent = 'Файл не выбран';
+        }
+    });
+    
+    // Отправка формы
+    addModForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Сбор данных формы
+        const formData = {
+            name: document.getElementById('modName').value.trim(),
+            description: document.getElementById('modDescription').value.trim(),
+            version: document.getElementById('modVersion').value.trim(),
+            mcVersion: document.getElementById('mcVersion').value,
+            author: 'Вы', // Можно добавить поле для автора
+            icon: getIconForCategories(),
+            categories: getSelectedCategories(),
+            featured: false
+        };
+        
+        // Проверка данных
+        if (!formData.name || !formData.description || !formData.version || !formData.mcVersion) {
+            showNotification('Пожалуйста, заполните все обязательные поля', 'error');
+            return;
+        }
+        
+        if (formData.categories.length === 0) {
+            showNotification('Выберите хотя бы одну категорию', 'error');
+            return;
+        }
+        
+        // Сохранение или обновление
+        if (editingModId !== null) {
+            updateMod(editingModId, formData);
+        } else {
+            addMod(formData);
+        }
+        
+        // Закрытие модального окна
+        closeModal();
+    });
+}
+
+function getSelectedCategories() {
+    const checkboxes = document.querySelectorAll('input[name="category"]:checked');
+    return Array.from(checkboxes).map(cb => cb.value);
+}
+
+function getIconForCategories() {
+    const categories = getSelectedCategories();
+    
+    const iconMap = {
+        'tech': 'fa-robot',
+        'magic': 'fa-hat-wizard',
+        'adventure': 'fa-hiking',
+        'building': 'fa-city',
+        'decor': 'fa-palette',
+        'factory': 'fa-industry',
+        'rpg': 'fa-dragon',
+        'automation': 'fa-cogs',
+        'blocks': 'fa-cube',
+        'mobs': 'fa-paw'
+    };
+    
+    for (const category of categories) {
+        if (iconMap[category]) {
+            return iconMap[category];
+        }
+    }
+    
+    return 'fa-box';
+}
+
+// Уведомления
+function initNotifications() {
+    window.showNotification = function(message, type = 'success') {
+        const notification = document.getElementById('notification');
+        const text = notification.querySelector('.notification-text');
+        const icon = notification.querySelector('.notification-icon');
+        
+        // Устанавливаем текст и тип
+        text.textContent = message;
+        notification.className = `notification ${type} show`;
+        
+        // Автоматическое скрытие
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    };
+}
+
+// Дополнительные слушатели событий
+function initEventListeners() {
+    // Импорт мода
+    document.getElementById('importMod').addEventListener('click', () => {
+        showNotification('Функция импорта мода в разработке', 'warning');
+    });
+    
+    // Новая коллекция
+    document.getElementById('createCollection').addEventListener('click', () => {
+        showNotification('Функция создания коллекции в разработке', 'warning');
+    });
+    
+    // Поделиться профилем
+    document.getElementById('shareProfile').addEventListener('click', () => {
+        if (navigator.share) {
+            navigator.share({
+                title: 'MyCraft Mods Collection',
+                text: 'Посмотрите мою коллекцию Minecraft модов!',
+                url: window.location.href
+            });
+        } else {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showNotification('Ссылка скопирована в буфер обмена!', 'success');
+            });
+        }
+    });
+    
+    // Кнопки управления
+    document.getElementById('sortMods').addEventListener('click', () => {
+        currentMods.sort((a, b) => b.downloads - a.downloads);
+        saveMods();
+        initMods();
+        showNotification('Моды отсортированы по популярности', 'success');
+    });
+    
+    document.getElementById('filterMods').addEventListener('click', () => {
+        showNotification('Фильтрация модов в разработке', 'warning');
+    });
+    
+    document.getElementById('editMods').addEventListener('click', () => {
+        showNotification('Режим редактирования активирован', 'success');
+    });
+    
+    // Поддержка
+    document.getElementById('contactSupport').addEventListener('click', () => {
+        showNotification('Форма обратной связи в разработке', 'warning');
+    });
+}
+
+// Кнопка "наверх" (остается без изменений)
+function initBackToTop() {
+    const backToTopBtn = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// Навигация (остается без изменений)
+function initNavigation() {
+    const navItems = document.querySelectorAll('.hotbar-slot');
+    const sections = document.querySelectorAll('.section');
+    
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = item.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+    
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const scrollPos = window.scrollY + 100;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${current}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+}
