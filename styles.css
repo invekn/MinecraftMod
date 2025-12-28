@@ -62,3 +62,28 @@ footer {
   background-color: #0077ff;
   color: #fff;
 }
+body {
+  background: radial-gradient(#000, #111);
+  overflow: hidden;
+  margin: 0;
+  height: 100vh;
+}
+
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: 
+    100px 200px white,
+    300px 400px white,
+    500px 100px white,
+    700px 300px white,
+    900px 150px white;
+  animation: moveStars 20s linear infinite;
+}
+
+@keyframes moveStars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100px); }
+}
