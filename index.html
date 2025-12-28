@@ -1,55 +1,272 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minecraft Fan Site</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Моды | Сборка лучших модов</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Minecraft&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://static.wikia.nocookie.net/minecraft_gamepedia/images/1/1a/Grass_Block_%28texture%29_JE5.png">
 </head>
 <body>
-  <!-- Анимированный фон -->
-  <div class="stars"></div>
+    <!-- Блоки фона -->
+    <div class="minecraft-bg">
+        <div class="block-grid"></div>
+    </div>
 
-  <header>
-    <h1>Добро пожаловать в мир Minecraft</h1>
-    <nav>
-      <a href="#about">Об игре</a>
-      <a href="#gallery">Галерея</a>
-      <a href="#links">Ссылки</a>
-    </nav>
-  </header>
+    <!-- Крестик загрузки Minecraft -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="minecraft-loading">
+            <div class="loading-bar">
+                <div class="loading-progress" id="loadingProgress"></div>
+            </div>
+            <p class="loading-text">Загрузка Minecraft-модов...</p>
+        </div>
+    </div>
 
-  <main>
-    <section id="hero">
-      <img src="images/hero.jpg" alt="Скриншот Minecraft" />
-      <p>Minecraft — игра, где ты можешь строить, выживать и исследовать бесконечный мир.</p>
-      <a class="button" href="https://www.minecraft.net/ru-ru" target="_blank">Официальный сайт</a>
-      <button id="themeToggle">Сменить тему</button>
-    </section>
+    <!-- Основной контент -->
+    <div class="container">
+        <!-- Хедер в стиле Minecraft -->
+        <header class="minecraft-header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="dirt-block"></div>
+                    <h1><i class="fas fa-cube"></i> Minecraft Моды</h1>
+                    <div class="grass-block"></div>
+                </div>
+                <p class="tagline">Сборка лучших модов для вашего Minecraft</p>
+            </div>
+            
+            <!-- Навигация как инвентарь -->
+            <nav class="inventory-nav">
+                <div class="hotbar">
+                    <a href="#mods" class="hotbar-slot active" data-tooltip="Моды">
+                        <i class="fas fa-box-open"></i>
+                        <span>Моды</span>
+                    </a>
+                    <a href="#install" class="hotbar-slot" data-tooltip="Установка">
+                        <i class="fas fa-download"></i>
+                        <span>Установка</span>
+                    </a>
+                    <a href="#guides" class="hotbar-slot" data-tooltip="Гайды">
+                        <i class="fas fa-book"></i>
+                        <span>Гайды</span>
+                    </a>
+                    <a href="#servers" class="hotbar-slot" data-tooltip="Серверы">
+                        <i class="fas fa-server"></i>
+                        <span>Серверы</span>
+                    </a>
+                    <a href="#community" class="hotbar-slot" data-tooltip="Сообщество">
+                        <i class="fas fa-users"></i>
+                        <span>Сообщество</span>
+                    </a>
+                </div>
+            </nav>
+        </header>
 
-    <section id="about">
-      <h2>Об игре</h2>
-      <p>Создавай постройки, крафти предметы, исследуй биомы и играй с друзьями!</p>
-    </section>
+        <!-- Статистика как в Minecraft -->
+        <section class="stats-bar">
+            <div class="stat">
+                <i class="fas fa-download"></i>
+                <span class="stat-count" data-count="1254">0</span>
+                <span class="stat-label">Загрузок</span>
+            </div>
+            <div class="stat">
+                <i class="fas fa-box"></i>
+                <span class="stat-count" data-count="89">0</span>
+                <span class="stat-label">Модов</span>
+            </div>
+            <div class="stat">
+                <i class="fas fa-users"></i>
+                <span class="stat-count" data-count="356">0</span>
+                <span class="stat-label">Разработчиков</span>
+            </div>
+            <div class="stat">
+                <i class="fas fa-check-circle"></i>
+                <span class="stat-count" data-count="100">0</span>
+                <span class="stat-label">Активных</span>
+            </div>
+        </section>
 
-    <section id="gallery">
-      <h2>Галерея</h2>
-      <img src="images/hero.jpg" alt="Постройка" />
-    </section>
+        <!-- Секция с модами -->
+        <section id="mods" class="section">
+            <h2 class="section-title">
+                <i class="fas fa-star"></i> Популярные Моды
+                <div class="title-decoration"></div>
+            </h2>
+            
+            <div class="mods-grid">
+                <!-- Мод 1 -->
+                <div class="mod-card" data-category="adventure">
+                    <div class="mod-header">
+                        <div class="mod-icon">
+                            <i class="fas fa-dragon"></i>
+                        </div>
+                        <div class="mod-title">
+                            <h3>Драконий Мод</h3>
+                            <span class="mod-version">v2.5.1</span>
+                        </div>
+                    </div>
+                    <div class="mod-description">
+                        <p>Добавляет драконов, яйца драконов и новые биомы.</p>
+                        <div class="mod-tags">
+                            <span class="tag adventure">Приключения</span>
+                            <span class="tag mobs">Мобы</span>
+                        </div>
+                    </div>
+                    <div class="mod-stats">
+                        <span><i class="fas fa-download"></i> 250K</span>
+                        <span><i class="fas fa-thumbs-up"></i> 98%</span>
+                        <span>MC 1.16+</span>
+                    </div>
+                    <button class="minecraft-btn download-btn" data-mod="dragon-mod">
+                        <i class="fas fa-download"></i> Скачать
+                    </button>
+                </div>
 
-    <section id="links">
-      <h2>Полезные ссылки</h2>
-      <ul>
-        <li><a href="https://minecraft.fandom.com/ru/wiki/Minecraft_Wiki" target="_blank">Minecraft Wiki</a></li>
-        <li><a href="https://www.curseforge.com/minecraft" target="_blank">Моды и сборки</a></li>
-      </ul>
-    </section>
-  </main>
+                <!-- Мод 2 -->
+                <div class="mod-card" data-category="tech">
+                    <div class="mod-header">
+                        <div class="mod-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <div class="mod-title">
+                            <h3>Технический Мод</h3>
+                            <span class="mod-version">v3.2.0</span>
+                        </div>
+                    </div>
+                    <div class="mod-description">
+                        <p>Новые машины, генераторы и автоматизация процессов.</p>
+                        <div class="mod-tags">
+                            <span class="tag tech">Техника</span>
+                            <span class="tag automation">Автоматизация</span>
+                        </div>
+                    </div>
+                    <div class="mod-stats">
+                        <span><i class="fas fa-download"></i> 180K</span>
+                        <span><i class="fas fa-thumbs-up"></i> 95%</span>
+                        <span>MC 1.18+</span>
+                    </div>
+                    <button class="minecraft-btn download-btn" data-mod="tech-mod">
+                        <i class="fas fa-download"></i> Скачать
+                    </button>
+                </div>
 
-  <footer>
-    <p>Фан-сайт Minecraft. Сделано Fisurochka ❤️</p>
-  </footer>
+                <!-- Мод 3 -->
+                <div class="mod-card" data-category="magic">
+                    <div class="mod-header">
+                        <div class="mod-icon">
+                            <i class="fas fa-hat-wizard"></i>
+                        </div>
+                        <div class="mod-title">
+                            <h3>Магический Мод</h3>
+                            <span class="mod-version">v1.8.3</span>
+                        </div>
+                    </div>
+                    <div class="mod-description">
+                        <p>Новые заклинания, магические предметы и ритуалы.</p>
+                        <div class="mod-tags">
+                            <span class="tag magic">Магия</span>
+                            <span class="tag rpg">RPG</span>
+                        </div>
+                    </div>
+                    <div class="mod-stats">
+                        <span><i class="fas fa-download"></i> 150K</span>
+                        <span><i class="fas fa-thumbs-up"></i> 96%</span>
+                        <span>MC 1.19+</span>
+                    </div>
+                    <button class="minecraft-btn download-btn" data-mod="magic-mod">
+                        <i class="fas fa-download"></i> Скачать
+                    </button>
+                </div>
+            </div>
+        </section>
 
-  <script src="script.js"></script>
+        <!-- Секция установки -->
+        <section id="install" class="section">
+            <h2 class="section-title">
+                <i class="fas fa-wrench"></i> Установка Модов
+                <div class="title-decoration"></div>
+            </h2>
+            
+            <div class="install-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Установите Forge</h3>
+                        <p>Скачайте и установите Minecraft Forge для вашей версии игры.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Найдите папку mods</h3>
+                        <p>Откройте папку .minecraft и найдите папку "mods".</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Поместите файлы модов</h3>
+                        <p>Скопируйте скачанные .jar файлы модов в папку mods.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Запустите игру</h3>
+                        <p>Запустите Minecraft через профиль Forge.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Футер -->
+        <footer class="minecraft-footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="footer-block"></div>
+                    <h3>Minecraft Моды</h3>
+                </div>
+                <div class="footer-links">
+                    <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="#"><i class="fab fa-discord"></i> Discord</a>
+                    <a href="#"><i class="fab fa-curseforge"></i> CurseForge</a>
+                </div>
+                <p class="copyright">© 2023 Minecraft Моды. Не аффилирован с Mojang/Microsoft.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Кнопка вверх -->
+    <button id="backToTop" class="minecraft-btn back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Модальное окно -->
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Скачать Мод</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">Выберите версию для скачивания:</p>
+                <div class="version-selector">
+                    <button class="version-option" data-version="1.19">Minecraft 1.19</button>
+                    <button class="version-option" data-version="1.18">Minecraft 1.18</button>
+                    <button class="version-option" data-version="1.17">Minecraft 1.17</button>
+                </div>
+                <div class="modal-actions">
+                    <button class="minecraft-btn confirm-download">
+                        <i class="fas fa-download"></i> Скачать
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
